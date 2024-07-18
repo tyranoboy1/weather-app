@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  ActivityIndicator,
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import * as Location from "expo-location";
 import { API_KEY } from "@env";
-
-/** 화면 너비 */
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import { LocationGeocodedAddress } from "expo-location";
+import axios from "axios";
+import { weatherStyles } from "./src/styles/weather.style";
+import { FontAwesome6 } from "@expo/vector-icons";
+import Temp from "./src/components/Temp";
 
 const App = () => {
-  const [regionInfoData, setRegionInfoData] = useState("Loading...");
+  const [regionInfoData, setRegionInfoData] = useState<
+    LocationGeocodedAddress[]
+  >([]);
   const [days, setDays] = useState([]);
   const [ready, setReady] = useState(true);
 
+  /** 날씨 정보를 가져오는 함수 */
   const getWeather = async () => {
     try {
       /** 사용자에게 위치 권한 물어보기 */
@@ -34,14 +32,14 @@ const App = () => {
         { useGoogleMaps: false }
       );
 
-      console.log("location", location);
-      setRegionInfoData(location[0].city || "");
-      const res = await fetch(
+      setRegionInfoData(location);
+
+      const res = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
       );
-      const json = await res.json();
+      const result = await res.data;
       setDays(
-        json.list.filter((weather: any) => {
+        result.list.filter((weather: any) => {
           if (weather.dt_txt.includes("00:00:00")) {
             return weather;
           }
@@ -55,70 +53,54 @@ const App = () => {
     getWeather();
   }, []);
 
+  console.log("dat", days);
+  console.log("regionInfoData", regionInfoData);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.city}>
-        <Text style={styles.cityName}>{regionInfoData}</Text>
-      </View>
-      <ScrollView
-        horizontal
-        contentContainerStyle={styles.weather}
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-      >
-        {days?.length === 0 ? (
-          <View style={styles.day}>
-            <ActivityIndicator
-              color="white"
-              size="large"
-              style={{ marginTop: 10 }}
-            />
+    <View style={weatherStyles.container}>
+      {ready ? (
+        <>
+          <View style={weatherStyles.regionTitleBox}>
+            <Text style={weatherStyles.regionName}>
+              {regionInfoData[0]?.city}
+            </Text>
+            <Text style={weatherStyles.districtName}>
+              {regionInfoData[0]?.district}
+            </Text>
           </View>
-        ) : (
-          days?.map((item: any, idx) => {
-            return (
-              <View key={idx} style={styles.day}>
-                <Text style={styles.temp}>
-                  {parseFloat(item.main.temp).toFixed(1)}
-                </Text>
-                <Text style={styles.description}>{item.weather[0].main}</Text>
-                <Text>{item.weather[0].description}</Text>
+          <ScrollView
+            horizontal
+            contentContainerStyle={weatherStyles.weather}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+          >
+            {days.length < 0 ? (
+              <View style={weatherStyles.day}>
+                <ActivityIndicator
+                  color="white"
+                  size="large"
+                  style={{ marginTop: 10 }}
+                />
               </View>
-            );
-          })
-        )}
-      </ScrollView>
+            ) : (
+              days.map((item: any, idx) => (
+                <View key={idx} style={weatherStyles.day}>
+                  <Text style={weatherStyles.date}>
+                    {item.dt_txt.split(" ")[0]}
+                  </Text>
+                  <Temp temp={item.main.temp} />
+                  {/* <Text style={weatherStyles.description}>
+                    {item.weather[0].main}
+                  </Text>
+                  <Text>{item.weather[0].description}</Text> */}
+                </View>
+              ))
+            )}
+          </ScrollView>
+        </>
+      ) : null}
     </View>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "tomato",
-  },
-  city: {
-    flex: 1.2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cityName: {
-    fontSize: 68,
-    fontWeight: "500",
-  },
-  weather: {},
-  day: {
-    width: SCREEN_WIDTH,
-    alignItems: "center",
-  },
-  temp: {
-    fontSize: 158,
-    marginTop: 50,
-  },
-  description: {
-    fontSize: 60,
-    marginTop: -30,
-  },
-});
