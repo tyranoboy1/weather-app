@@ -8,15 +8,16 @@ import {
   View,
 } from "react-native";
 import * as Location from "expo-location";
+import { API_KEY } from "@env";
 
+/** 화면 너비 */
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
-// TODO api 키값 환경변수로 사용하는 방법 적용 해야됌 expo 환경에서
-const apiKey = "7009780a7549ccf514265937e7104785";
-export default function App() {
-  const [city, setCity] = useState("Loading...");
+const App = () => {
+  const [regionInfoData, setRegionInfoData] = useState("Loading...");
   const [days, setDays] = useState([]);
   const [ready, setReady] = useState(true);
+
   const getWeather = async () => {
     try {
       /** 사용자에게 위치 권한 물어보기 */
@@ -27,17 +28,20 @@ export default function App() {
       const {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+
       const location = await Location.reverseGeocodeAsync(
         { latitude, longitude },
         { useGoogleMaps: false }
       );
-      setCity(location[0].city);
+
+      console.log("location", location);
+      setRegionInfoData(location[0].city || "");
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
       );
       const json = await res.json();
       setDays(
-        json.list.filter((weather) => {
+        json.list.filter((weather: any) => {
           if (weather.dt_txt.includes("00:00:00")) {
             return weather;
           }
@@ -54,7 +58,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.city}>
-        <Text style={styles.cityName}>{city}</Text>
+        <Text style={styles.cityName}>{regionInfoData}</Text>
       </View>
       <ScrollView
         horizontal
@@ -71,16 +75,14 @@ export default function App() {
             />
           </View>
         ) : (
-          days?.map((item, idx) => {
+          days?.map((item: any, idx) => {
             return (
               <View key={idx} style={styles.day}>
                 <Text style={styles.temp}>
                   {parseFloat(item.main.temp).toFixed(1)}
                 </Text>
                 <Text style={styles.description}>{item.weather[0].main}</Text>
-                <Text style={styles.tinyText}>
-                  {item.weather[0].description}
-                </Text>
+                <Text>{item.weather[0].description}</Text>
               </View>
             );
           })
@@ -88,7 +90,9 @@ export default function App() {
       </ScrollView>
     </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
