@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 /** 화면 너비 */
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export const homeStyles = StyleSheet.create({
   homeContainer: {
@@ -35,14 +35,18 @@ export const homeStyles = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 20,
-    color: "red",
     fontWeight: 600,
   },
 });
 
-export const weatherStyles = StyleSheet.create({
+export const layoutStyles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+});
+export const tempStyles = StyleSheet.create({
+  scrollView: {
+    paddingVertical: 20,
   },
   regionTitleBox: {
     flex: 0.8,
@@ -59,9 +63,6 @@ export const weatherStyles = StyleSheet.create({
     fontWeight: "500",
     marginLeft: 10,
   },
-  weather: {
-    paddingVertical: 20,
-  },
   day: {
     width: SCREEN_WIDTH,
     alignItems: "center",
@@ -71,40 +72,55 @@ export const weatherStyles = StyleSheet.create({
     fontWeight: "500",
   },
   tempBox: {
+    width: SCREEN_WIDTH,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 30,
+    gap: 30,
   },
   TableBox: {
-    width: SCREEN_WIDTH * 0.6,
+    width: SCREEN_WIDTH * 0.7,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
   },
   subTableBox: {
-    width: SCREEN_WIDTH * 0.7,
+    width: SCREEN_WIDTH * 0.6,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 13,
-    marginTop: 10,
+  },
+  subDetailTableBox: {
+    width: SCREEN_WIDTH * 0.6,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 30,
   },
   detailTempBox: {
     flexDirection: "column",
     alignItems: "center",
   },
+  feelLikeBox: {
+    width: SCREEN_WIDTH * 0.7,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    gap: 10,
+  },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 500,
   },
   subtitle: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 500,
   },
   temp: {
-    fontSize: 70,
+    fontSize: 105,
     marginLeft: 10,
   },
   description: {
