@@ -44,6 +44,12 @@ export const layoutStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  footer: {
+    flex: 0.07,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 export const tempStyles = StyleSheet.create({
   scrollView: {
