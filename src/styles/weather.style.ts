@@ -10,7 +10,7 @@ export const homeStyles = StyleSheet.create({
     alignItems: "center",
   },
   regionTitleBox: {
-    flex: 0.2,
+    flex: 0.5,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -28,6 +28,7 @@ export const homeStyles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.25,
     flexDirection: "column",
     alignItems: "center",
+    marginTop: 30,
     paddingVertical: 15,
     borderRadius: 50,
     borderWidth: 1.5,
@@ -101,6 +102,85 @@ export const tempStyles = StyleSheet.create({
     gap: 30,
   },
   detailTempBox: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  feelLikeBox: {
+    width: SCREEN_WIDTH * 0.7,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    gap: 10,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 500,
+  },
+  subtitle: {
+    fontSize: 30,
+    fontWeight: 500,
+  },
+  temp: {
+    fontSize: 105,
+    marginLeft: 10,
+  },
+  description: {
+    fontSize: 60,
+    marginTop: -30,
+  },
+});
+
+export const weatherStyles = StyleSheet.create({
+  scrollView: {
+    paddingVertical: 20,
+  },
+  day: {
+    width: SCREEN_WIDTH,
+    alignItems: "center",
+  },
+  date: {
+    fontSize: 30,
+    fontWeight: "500",
+  },
+  weatherBox: {
+    width: SCREEN_WIDTH,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    // gap: 30,
+  },
+  TableBox: {
+    width: SCREEN_WIDTH * 0.7,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+  },
+  weather: {
+    fontSize: 60,
+    fontWeight: 500,
+  },
+  weatherDescription: {
+    fontSize: 40,
+    fontWeight: 500,
+  },
+  subTableBox: {
+    width: SCREEN_WIDTH * 0.6,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 13,
+  },
+  subDetailTableBox: {
+    width: SCREEN_WIDTH * 0.6,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 30,
+    gap: 30,
+  },
+  detailWeatherBox: {
     flexDirection: "column",
     alignItems: "center",
   },

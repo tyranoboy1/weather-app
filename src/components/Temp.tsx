@@ -9,7 +9,6 @@ import { RootState } from "../store/store";
 const Temp = () => {
   const days = useSelector((state: RootState) => state.weather.days);
 
-  console.log("da", days);
   /** 온도값에 따른 온도계 아이콘 렌더링 해주는 함수 */
   const tempRenderIcon = (pTemp: string) => {
     const temp = Math.floor(Number(pTemp));

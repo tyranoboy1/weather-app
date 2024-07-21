@@ -5,7 +5,11 @@ import { API_KEY } from "@env";
 import { LocationGeocodedAddress } from "expo-location";
 import axios from "axios";
 import { homeStyles } from "../styles/weather.style";
-import { FontAwesome6 } from "@expo/vector-icons";
+import {
+  FontAwesome6,
+  MaterialCommunityIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import { WeatherUtils } from "../utils/weatherUtil";
 import { useDispatch, useSelector } from "react-redux";
 import weatherSlice from "../slice/weatherSlice";
@@ -71,33 +75,55 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
           </View>
           <View>
             {days.length > 0 ? (
-              <TouchableOpacity
-                style={[
-                  homeStyles.menuButton,
-                  {
-                    borderColor: WeatherUtils.getTempTextColor(
-                      days[0]?.main.temp
-                    ),
-                  },
-                ]}
-                onPress={() => navigation.navigate("Temp")}
-              >
-                <FontAwesome6
-                  name="temperature-quarter"
-                  size={40}
-                  color={WeatherUtils.getTempTextColor(days[0]?.main.temp)}
-                />
-                <Text
+              <>
+                <TouchableOpacity
                   style={[
-                    homeStyles.buttonTitle,
+                    homeStyles.menuButton,
                     {
-                      color: WeatherUtils.getTempTextColor(days[0]?.main.temp),
+                      borderColor: WeatherUtils.getTempTextColor(
+                        days[0]?.main.temp
+                      ),
                     },
                   ]}
+                  onPress={() => navigation.navigate("temp")}
                 >
-                  온도
-                </Text>
-              </TouchableOpacity>
+                  <FontAwesome6
+                    name="temperature-quarter"
+                    size={40}
+                    color={WeatherUtils.getTempTextColor(days[0]?.main.temp)}
+                  />
+                  <Text
+                    style={[
+                      homeStyles.buttonTitle,
+                      {
+                        color: WeatherUtils.getTempTextColor(
+                          days[0]?.main.temp
+                        ),
+                      },
+                    ]}
+                  >
+                    온도
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[homeStyles.menuButton]}
+                  onPress={() => navigation.navigate("weather")}
+                >
+                  <MaterialCommunityIcons
+                    name="weather-cloudy"
+                    size={40}
+                    color="black"
+                  />
+                  <Text style={[homeStyles.buttonTitle]}>날씨</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[homeStyles.menuButton]}
+                  onPress={() => navigation.navigate("wind")}
+                >
+                  <FontAwesome5 name="wind" size={40} color="black" />
+                  <Text style={[homeStyles.buttonTitle]}>바람</Text>
+                </TouchableOpacity>
+              </>
             ) : null}
           </View>
         </View>
