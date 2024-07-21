@@ -7,6 +7,7 @@ import TempScreen from "./src/screen/TempScreen";
 import { Provider } from "react-redux";
 import store from "./src/store/store";
 import WeatherScreen from "./src/screen/WeatherScreen";
+import WindScreen from "./src/screen/WindScreen";
 
 const Stack = createStackNavigator();
 
@@ -21,7 +22,7 @@ const App = () => {
             </Stack.Screen>
             <Stack.Screen name="temp" component={TempScreen} />
             <Stack.Screen name="weather" component={WeatherScreen} />
-            <Stack.Screen name="wind" component={WeatherScreen} />
+            <Stack.Screen name="wind" component={WindScreen} />
           </Stack.Navigator>
         </ScreenLayout>
       </NavigationContainer>

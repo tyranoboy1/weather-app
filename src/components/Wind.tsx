@@ -4,10 +4,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { weatherStyles } from "../styles/weather.style";
 
-const Weather = () => {
+const Wind = () => {
   const days = useSelector((state: RootState) => state.weather.days);
 
-  console.log("daY", days);
   return (
     <ScrollView
       horizontal
@@ -28,38 +27,21 @@ const Weather = () => {
           <View key={idx} style={weatherStyles.day}>
             <Text style={weatherStyles.date}>{item.dt_txt.split(" ")[0]}</Text>
             <View style={weatherStyles.weatherBox}>
-              <View style={weatherStyles.TableBox}>
-                <Text style={weatherStyles.title}>날씨:</Text>
-                <Text style={weatherStyles.weather}>
-                  {item.weather[0].main}
-                </Text>
-              </View>
-              <View style={weatherStyles.TableBox}>
-                <Text style={weatherStyles.weatherDescription}>
-                  {`( ${item.weather[0].description} )`}
-                </Text>
-              </View>
               <View style={weatherStyles.subDetailTableBox}>
                 <View style={weatherStyles.detailWeatherBox}>
-                  <Text style={weatherStyles.title}>강수량</Text>
+                  <Text style={weatherStyles.title}>바람 속도</Text>
                   <Text style={[weatherStyles.subtitle]}>
-                    {item.rain?.["3h"] || 0}(3h)
+                    {item.wind.speed}m/s
                   </Text>
                 </View>
                 <View style={weatherStyles.detailWeatherBox}>
-                  <Text style={weatherStyles.title}>구름량</Text>
-                  <Text style={[weatherStyles.subtitle]}>
-                    {item.clouds.all}%
-                  </Text>
+                  <Text style={weatherStyles.title}>바람 방향</Text>
+                  <Text style={[weatherStyles.subtitle]}>{item.wind.deg}°</Text>
                 </View>
                 <View style={weatherStyles.detailWeatherBox}>
-                  <Text style={weatherStyles.title}>강수확률</Text>
-                  <Text style={[weatherStyles.subtitle]}>{item.pop}%</Text>
-                </View>
-                <View style={weatherStyles.detailWeatherBox}>
-                  <Text style={weatherStyles.title}>예보주기</Text>
+                  <Text style={weatherStyles.title}>돌풍 속도</Text>
                   <Text style={[weatherStyles.subtitle]}>
-                    {item.sys.pod === "d" ? "낮" : "밤"}
+                    {item.wind.gust}m/s
                   </Text>
                 </View>
               </View>
@@ -71,4 +53,4 @@ const Weather = () => {
   );
 };
 
-export default Weather;
+export default Wind;
